@@ -1,3 +1,6 @@
 from django.contrib import admin
+from LanguageExchange.models import User, Language, Country
 
-# Register your models here.
+admin.site.register(User)
+admin.site.register(Language)
+admin.site.register(Country)
