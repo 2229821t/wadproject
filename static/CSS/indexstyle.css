@@ -1,0 +1,83 @@
+@charset "utf-8";
+/* CSS Document */
+
+    
+    #page{
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+        
+    }
+    
+    #header{
+        background-color:#fff5c2; 
+        #border-style: solid;    
+    }
+    
+    #content{
+        margin-top:-22px;
+        background-color:#9bd7d5;
+    }
+    #footer{
+        margin-top:-10px;
+        background-color:#119691;   
+    }
+    o{
+        clear:both;
+    }
+    .namebox{
+        margin-top:90px;
+        #border-style: solid;    
+        margin-right:100px;
+        overflow: auto;
+        float:left;
+        font-size:20px;
+        clear:right;
+        
+        
+
+    
+    }
+   
+    .logobox{
+       
+        margin-left:30px  ;
+        #border-color :black;
+        #border-style: solid;
+        text-align:left;
+        overflow: auto;
+        float:left;
+        
+        
+    }
+    
+    .headMenu{
+        #width:100%;
+        #border-color :black;
+        #border-style: solid;
+        margin-top:125px;
+        text-align:right;
+        overflow: auto;
+        float:right;
+        margin-right:10px;
+        position: relative;
+        font-size:20px;
+        
+    }
+   
+    t{
+         margin-right:50px ;
+    }
+    .footmenu{
+        #border-style: solid;
+        margin-left:50px;
+        text-align:left;
+        font-size:30px;
+        font-style:bold;
+        float:left;
+        overflow: auto;
+        padding: 10px;
+        background-color:#129792;
+    }
+
+  
