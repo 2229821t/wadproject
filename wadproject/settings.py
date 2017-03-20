@@ -120,6 +120,12 @@ PASSWORD_HASHERS = [
 	
 ]	
 
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'mrsuccess1203@gmail.com'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_PASSWORD = 'kiki12031031'
+EMAIL_PORT = 587
+
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
 

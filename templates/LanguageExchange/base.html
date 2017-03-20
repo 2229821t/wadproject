@@ -63,8 +63,8 @@
                 
                     <HR COLOR="green" WIDTH="100%"></HR>
                     <div class="footmenu"> <a href="{% url 'index' %}"> Home</a></div>
-                    <div class="footmenu"> <a href="{ % url % } "alt="About US">About US</a></div>
-                    <div class="footmenu"> <a href = "{ % url % }" alt="Contact US">Contact US</a></div>
+                    <div class="footmenu"> <a href="{% url 'about' %}">About US</a></div>
+                    <div class="footmenu"> <a href = "{% url 'contact' %}" alt="Contact US">Contact US</a></div>
                     <div class="footmenu"> <a href = "{ % url % }"  alt="FAQs">FAQs</a></div>	
                     {% if not user.is_authenticated %} 
                         <div class="footmenu"><a href="{% url 'register' %}">sign up</a></div>  

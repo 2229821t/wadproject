@@ -5,11 +5,27 @@ from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from LanguageExchange.forms import UserCreationForm,UserChangeForm
-from registration.backends.simple.views import RegistrationView
+from django.core.mail import send_mail
 
+def about(request):
+    
+    return render(request, 'LanguageExchange/about.html')
 
-    
-    
+def contact(request):
+    return render(request, 'LanguageExchange/contact.html')    
+
+def send(request):
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        fromEmail = request.POST.get('fromEmail')
+        comment = fromEmail + ': '+ request.POST.get('com')
+        if name == '' or fromEmail == '' or comment =='':
+            return HttpResponse('Blank should not be empty.')
+        else:
+            send_mail(name,comment,fromEmail,['mrsuccess1203@gmail.com'],fail_silently=False)
+            return HttpResponse('Message sent')
+    return HttpResponse('Failed to send.')
+
 def index(request):
     context_dict = {'boldmessage': "Crunchy, creamy, cookie, candy, cupcake!"}
     return render(request, 'LanguageExchange/index.html', context=context_dict)
@@ -118,6 +134,4 @@ def user_logout(request):
     # take user back to homepage
     return HttpResponseRedirect(reverse('index'))	
 
-class MyRegistrationView(RegistrationView):
-    def get_success_url(self,user):
-        return '/LanguageExchange/'
+
