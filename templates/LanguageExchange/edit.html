@@ -1,23 +1,96 @@
 {% extends 'LanguageExchange/base.html' %}
 {% load staticfiles %}
-
+{% block title_block%}
+<title>Edit</title>
+{% endblock %}
 
 {% block body_block %}
-    <h1>Register with LanguageExchange</h1>
-    {% if registered %}
-        <strong>thank you for registering!</strong>
-        <a href="{% url 'index' %}">Return to the homepage.</a><br />
-    {% else %}
-        <strong>register here!</strong><br />
-        <form id="change_form" method="post" action="{% url 'edit' %}" enctype="multipart/form-data">
-        {% csrf_token %}
 
-        <!-- Display each form -->
-        {{ change_form.as_p }}
+
+
+
+
+
+<body>
+
+
+
+ <div class="fullscreen landing parallax" style="background-image:url('{% static "images/contack-logo.png" %}');"  data-img-width="2000" data-img-height="1333" data-diff="100"> 
+
+            <div class="overlay">
+                <div class="container">
+                        <div class="col-md-12">
+
+                            <div class="signup-header wow fadeInUp">
+                                   
+                               <div class="signup-header wow fadeInUp">
+                                <h3 class="form-title text-center">GET TO EDIT</h3>
+                            {% include 'LanguageExchange/messages.html' %} 
+                            
+                               
+                                 <form id="change_form" method="post" action="{% url 'edit' %}" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    
+                                    <input type="hidden" name="u" value="503bdae81fde8612ff4944435">
+                                    <input type="hidden" name="id" value="bfdba52708">
+                                
+                                     {% csrf_token %} 
+                                     
+                                
+                                   
+                                   
+                                    <div class="form-group" style="float:left;margin-left:50px;">
+                                    <input type="text" name="username"  size="30"placeholder="username" />
+                                    </div>
+                                    <div class="form-group" style="float:left; margin-left:50px;">
+                                    <input type="password" name="password1" size="30"placeholder="Password"  />
+                                    </div>
+                                    <div class="form-group" style="float:left; margin-left:50px;">
+                                     <input type="password" name="password2" size="30"placeholder="Password Confiemation"  />
+                                    </div>
+                                    
+                                 
+                               
+                                <div class="form-group" style="float:left;margin-left:20px;  color:white;">                 
+                                    Native
+                                    <div style="color:black">
+                                    {{change_form.Mother_language}}
+                                    </div>
+                                    </div>
+                                <div class="form-group" style="float:left;margin-left:20px; color:white;">                 
+                                    Wish
+                                    <div style="color:black">
+                                    {{change_form.Wish_language}}
+                                    </div>
+                                    </div>
+                                <div class="form-group" style="float:left;margin-left:20px;;color:white;">
+                                    
+                                    Profile
+                                    {{change_form.Profile_image}}
+                                    </div>
+                                    
+                                <div class="form-group" style="float:left; ;color:white;">
+                                    <input class="form-control input-lg" name="status_message" id="status_message" type="text" placeholder="Write your profile status "size="1000"required="">
+                                    
+                                    </div>
+                                    
+                                    
+                                      
+                                    <button class="btn btn-primary" type="submit">Edit</button>
+                                     
+                                     </form>
+                         </div>
+                    </div>
+                </div>
+           </div>                
+     </div>
+</div>
         
 
-        <!-- Provide a button to click to submit the form. -->
-        <input type="submit" name="submit" value="Edit" />
-        </form>
-    {% endif %}
+
+
+
+
+
+    
 {% endblock %}

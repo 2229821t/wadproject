@@ -5,38 +5,42 @@ from django.contrib.auth.models import (BaseUserManager, AbstractBaseUser)
 
 
 class MyUserManager(BaseUserManager):
-    def create_user(self, email,username,Nationality,Mother_language,Wish_language,picture,password=None):
+    def create_user(self, email,username,Nationality,Mother_language,Wish_language,Profile_image,status_message,password=None):
         
         if not email:
             raise ValueError('Users must have an email address')
+       
 
         user = self.model(
             email=self.normalize_email(email),
             username=username,
-            picture=picture,
+            Profile_image=Profile_image,
             Nationality=Nationality,
             Mother_language=Mother_language,
-            Wish_language=Wish_language
+            Wish_language=Wish_language,
+            status_message=status_message,
         )
 
         user.set_password(password)
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, email, username,Nationality,Mother_language,Wish_language,password,picture):
+    def create_superuser(self, email, username,Nationality,Mother_language,Wish_language,password,status_message,Profile_image):
        
         user = self.create_user(email,
             password=password,
             username=username,
-            picture=picture,
+            Profile_image=Profile_image,
             Nationality=Nationality,
             Mother_language=Mother_language,
             Wish_language=Wish_language,
+            status_message=status_message,
         )
         user.is_admin = True
         user.save(using=self._db)
         return user
-Language_list=(('AFRIKAANS','Afrikaans'),
+Language_list=( ("","Please Select"),
+('AFRIKAANS','Afrikaans'),
 ('ALBANIAN','Albanian'),
 ('AMHARIC','Amharic'),
 ('ARABIC','Arabic'),
@@ -180,12 +184,14 @@ Language_list=(('AFRIKAANS','Afrikaans'),
 ('ZULU','Zulu'),
 
 )
-Country_choice=(('AFGHANISTAN','Afghanistan'),
+Country_choice=(("","Please Select"),
+('AFGHANISTAN','Afghanistan'),
 ('ALBANIA','Albania'),
+('AMHARIC','Amharic'),
 ('ALGERIA','Algeria'),
 ('ANDORRA','Andorra'),
 ('ANGOLA','Angola'),
-('ANTIGUA AND BARBUDA','Antigua and Barbuda'),
+('ANTIGUA','Antigua'),
 ('ARGENTINA','Argentina'),
 ('ARMENIA','Armenia'),
 ('AUSTRALIA','Australia'),
@@ -201,7 +207,7 @@ Country_choice=(('AFGHANISTAN','Afghanistan'),
 ('BENIN','Benin'),
 ('BHUTAN','Bhutan'),
 ('BOLIVIA','Bolivia'),
-('BOSNIA AND HERZEGOVINA','Bosnia and Herzegovina'),
+('BOSNIA','Bosnia'),
 ('BOTSWANA','Botswana'),
 ('BRAZIL','Brazil'),
 ('BRUNEI','Brunei'),
@@ -323,12 +329,12 @@ Country_choice=(('AFGHANISTAN','Afghanistan'),
 ('ROMANIA','Romania'),
 ('RUSSIA','Russia'),
 ('RWANDA','Rwanda'),
-('SAINT KITTS AND NEVIS','Saint Kitts and Nevis'),
+('SAINT KITTS','Saint Kitts'),
 ('SAINT LUCIA','Saint Lucia'),
-('SAINT VINCENT AND THE GRENADINES','Saint Vincent and the Grenadines'),
+('SAINT VINCENT','Saint Vincent'),
 ('SAMOA','Samoa'),
 ('SAN MARINO','San Marino'),
-('SAO TOME AND PRINCIPE','Sao Tome and Principe'),
+('SAO TOME','Sao Tome'),
 ('SAUDI ARABIA','Saudi Arabia'),
 ('SENEGAL','Senegal'),
 ('SERBIA','Serbia'),
@@ -357,7 +363,7 @@ Country_choice=(('AFGHANISTAN','Afghanistan'),
 ('TIMOR-LESTE','Timor-Leste'),
 ('TOGO','Togo'),
 ('TONGA','Tonga'),
-('TRINIDAD AND TOBAGO','Trinidad and Tobago'),
+('TRINIDAD','Trinidad'),
 ('TUNISIA','Tunisia'),
 ('TURKEY','Turkey'),
 ('TURKMENISTAN','Turkmenistan'),
@@ -379,36 +385,43 @@ Country_choice=(('AFGHANISTAN','Afghanistan'),
 
 )
 
+
+
 class MyUser(AbstractBaseUser):
     email = models.EmailField(
-        verbose_name='email address',
+        verbose_name='Email',
         max_length=255,
-        unique=True,
+        unique=True,null = False
     )
-    username = models.CharField(max_length = 30, unique = True, null = False)
+    username = models.CharField(max_length = 30, null = False)
    
-    Nationality =models.CharField(max_length = 30,choices= Country_choice,null = False)
+    Nationality =models.CharField(max_length = 30,choices= Country_choice,null = False )
     Mother_language = models.CharField(max_length = 30,choices= Language_list,null = False)
     Wish_language =models.CharField(max_length = 30,choices= Language_list,null = False)
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
-    picture = models.ImageField(upload_to='profile_images',blank=True)
+    Profile_image = models.ImageField(upload_to='profile_images',blank=True, )
+    status_message=models.CharField(max_length = 500,null = True)
     objects = MyUserManager()
-
+    
+   
+    
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['username','Nationality','Mother_language','Wish_language','picture']
-
-    def set_picture(self):
-       self.has_picture = True
+    REQUIRED_FIELDS = ['username','Nationality','Mother_language','Wish_language','Profile_image','status_message']
+        
+   
+    
+    def set_Profile_image(self):
+       self.has_Profile_image = True
     
     def get_full_name(self):
        
         return self.email
-
+  
     def get_short_name(self):
        
         return self.email
-
+    
     def __str__(self):             
         return self.email
 
@@ -424,3 +437,5 @@ class MyUser(AbstractBaseUser):
     def is_staff(self):
        
         return self.is_admin
+
+    

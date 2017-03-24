@@ -4,67 +4,73 @@ from django.core.urlresolvers import reverse
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
-from LanguageExchange.forms import UserCreationForm,UserChangeForm
+from LanguageExchange.forms import UserCreationForm,UserChangeForm,SearchForm,MyUserAdmin,MyUserCreationForm
+from django.db.models import Q
+from LanguageExchange.models import MyUser
+from django.shortcuts import render_to_response
+from django.template import RequestContext
+from django.contrib import messages
+from django.shortcuts import redirect
+from django import forms
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.mail import send_mail
 
 def about(request):
-    
-    return render(request, 'LanguageExchange/about.html')
-
+    about=False
+    return render(request, 'LanguageExchange/about.html', {"about":about})
 def contact(request):
     return render(request, 'LanguageExchange/contact.html')    
-
-def send(request):
+    
+def FAQs(request):
+    return render(request, 'LanguageExchange/FAQs.html')    
+    
+def send(request): 
     if request.method == 'POST':
         name = request.POST.get('name')
         fromEmail = request.POST.get('fromEmail')
-        comment = fromEmail + ': '+ request.POST.get('com')
-        if name == '' or fromEmail == '' or comment =='':
-            return HttpResponse('Blank should not be empty.')
-        else:
-            send_mail(name,comment,fromEmail,['mrsuccess1203@gmail.com'],fail_silently=False)
-            return HttpResponse('Message sent')
-    return HttpResponse('Failed to send.')
+        comment = request.POST.get('comment')
+        send_mail(name,comment,fromEmail,['mrsuccess1203@gmail.com'],fail_silently=False)
+            
+           
+    return  HttpResponseRedirect(reverse('contact'))
+                  
 
-def index(request):
-    context_dict = {'boldmessage': "Crunchy, creamy, cookie, candy, cupcake!"}
-    return render(request, 'LanguageExchange/index.html', context=context_dict)
-
+ 
 def register(request):
     registered = False
-
+    
     if request.method == 'POST':
-        user_form = UserCreationForm(data=request.POST)
-        if user_form.is_valid():
-            user = user_form.save()
-            # Did the user provide a profile picture?
-            # If so, we need to get it from the input form and
-            # put it in the UserProfile model.
-            user.save()
-            if 'picture' in request.FILES:
-                user.picture = request.FILES['picture']
-
-            # Now we save the UserProfile model instance.
-            user.save()
-            registered = True
+        user_form = MyUserCreationForm(data=request.POST)
+      
         
-        else:
-            print(user_form.errors)
-
+        print("email")
+        if user_form.is_valid():       
+           
+            user = user_form.save()
+            user.save()
+                
+            if 'Profile_image' in request.FILES:
+                    user.Profile_image = request.FILES['Profile_image']
+                    user.save()
+                    registered = True
+        
+       
+           
+        else:   
+           messages.warning(request,"Make you sure to use GU ID and Password is more than 8 character", extra_tags='alert') 
+           return redirect('/LanguageExchange/')
     else:
-        user_form = UserCreationForm()
+        user_form = MyUserCreationForm()
         
     return render(request,
                 'LanguageExchange/register.html',
-                {'user_form': UserCreationForm,
+                {'user_form': user_form,
                 'registered': registered})
-
                 
                 
 @login_required                 
-def edit_information(request):
+def edit(request):
     edited = False
-
     if request.method == 'POST':
        
         change_form = UserChangeForm(data=request.POST)
@@ -72,31 +78,26 @@ def edit_information(request):
            
             #user = change_form.save()
             user = request.user
+            user.username = change_form.cleaned_data['username']
             user.set_password(change_form.cleaned_data['password1'])
             user.Mother_language = change_form.cleaned_data['Mother_language']
             user.Wish_language = change_form.cleaned_data['Wish_language']
            
             user.save()
-            return render(request, 'LanguageExchange/index.html')
+            return redirect('/LanguageExchange/')
            
-            #user.set_password(user.password)
-            user.save()
-
-        #if change_form.is_valid():    
-        #    change = change_form.save()
-        #    change.set_password(user.password)
-        #    change.user = user
+            
+           
+       
             edited = True
         
-        else:
-          
-            print(change_form.errors)
-
+        else: 
+           messages.warning(request,"Make you sure to check  Password", extra_tags='alert')
+           return redirect('/LanguageExchange/edit')
     else:
        
        
         change_form = UserChangeForm()
-
     return render(request,
                 'LanguageExchange/edit.html',
                 {'change_form': UserChangeForm,
@@ -105,33 +106,64 @@ def edit_information(request):
              
 def user_login(request):
     if request.method == 'POST':
+        
         username = request.POST.get('email')
         password = request.POST.get('password')
         user = authenticate(username=username, password=password)
-
         if user:
             if user.is_active:
               
                 login(request, user)
-                return HttpResponseRedirect(reverse('index'))
+                return HttpResponseRedirect(reverse('register'))	
            
-            else:
-               
-                return HttpResponse("Your Rango account is disabled.")
+            else: 
+                messages.warning(request,"Make you sure to Check ID and Password", extra_tags='alert') 
+                return HttpResponseRedirect(reverse('register'))	
         else:
-            
-            print("Invalid login details: {0}, {1}".format(username, password))
-            return HttpResponse("Invalid login details supplied.")
+            messages.warning(request,"Make you sure to Check ID and Password", extra_tags='alert') 
+            return HttpResponseRedirect(reverse('register'))	
    
     else:
-     
-        return render(request, 'LanguageExchange/login.html', {})
+        messages.warning(request,"Make you sure to Check ID and Password", extra_tags='alert') 
+        return HttpResponseRedirect(reverse('register'))	
 
 @login_required
 def user_logout(request):
-    # since we know user is already logged in
     logout(request)
-    # take user back to homepage
-    return HttpResponseRedirect(reverse('index'))	
+    return HttpResponseRedirect(reverse('register'))	
+        
+                
 
-
+def search(request):
+    searched = False
+  
+    form = SearchForm(request.GET or None) 
+    if request.method == "GET" and form.is_valid():
+        
+        myuser_qs = MyUser.objects.all()
+        
+        
+        Mother_language = form.cleaned_data['Mother_language']
+        Nationality = form.cleaned_data['Nationality']
+       
+        myuser_qs=request.GET.get('q')
+        
+        myuser_qs = MyUser.objects.filter(Q(Mother_language__contains=Mother_language)|Q(Nationality__contains=Nationality)).distinct()
+        
+        
+        paginator = Paginator( myuser_qs, 5)
+        page = request.GET.get('page')
+        searched = True
+        try:
+            users = paginator.page(page)
+        except PageNotAnInteger:
+            users = paginator.page(1)
+        except EmptyPage:
+            users = paginator.page(paginator.num_pages)
+        
+        return render(request, "LanguageExchange/user_list.html",{'Result': users,"searched":searched,})
+    
+    return render(request, "LanguageExchange/search.html", { "form": form,"searched":searched})
+    
+    
+  

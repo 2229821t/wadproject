@@ -1,27 +1,103 @@
+
 {% extends 'LanguageExchange/base.html' %}
 {% load staticfiles %}
-{% block title_block %}
-	<title>
-		About Us
-	</title>
+<html>
+<html lang="en">
+  <head>
+
+{% block title_block%}
+<title>About Us</title>
 {% endblock %}
 
-{% block body_block %}
-    <h1>About Us</h1>
-	<br/>
-	<p>
-		Glasgow Language University Exchange (GLUE) is the effort of Dohyung Kim, Daehwan Cho, Yao-I Teong and Macello to support the university students in Glasgow learn, practice and become fluent in a foreign language.<br />
 
-		The four founders met in early 2017 as computer science students in Glasgow university. They can see many international students in the university and they thought culture exchange would be nice at begins.<br />
+   
+ </head>
+  <body>
 
-		Actually they had knew that language exchange website has already exsisted, but that is for all over the world and it is hard to find people around them.
+   {% block body_block %}
+ 
+            <div class="contact fullscreen parallax" style="background-image:  url('{% static "images/about-logo.png" %}');" background-attachment: fixed; background-size: 1263px 842.421px; background-position: 50% -298.609px;" data-img-width="2000" data-img-height="1333" data-diff="100">
+                <div class="overlay">
+                    <div class="container">
+                        <div class="col-md-8 col-md-offset-5 col-sm-12 text-center">
 
-		Therefore, they decided to create language exchange website just for university students in Glasgow. <br />
+                            <!-- /.download title -->
+                            <h2 class="wow fadeInRight animated" style="visibility: visible; animation-name: fadeInRight;">Would like to know US?</h2>
+                        
+                            <!-- /.download button -->
+                            <div class="download-cta wow fadeInLeft animated" style="visibility: visible; animation-name: fadeInLeft;">
+                                <a href="#content" class="btn-secondary">Get to Know</a>
+                            </div>
+                        </div>	
+                    </div>	
+                </div>
+            </div>
+            
+          </div>   
+ 
+          <div id="content">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-10 col-md-offset-1 col-sm-12 text-center feature-title">
 
-		Although all of them are taking language classes (Chinese, French, Spanish) in the university, language classes and immersion alone are not sufficient to become fluent in a foreign language.
+                        <!-- /.feature title -->
+                        <h2>LanguageExchange</h2>
+                        <p>We will offer LanguageExchange, and a lot of benefits by ecouraging to meet people.</p>
+                    </div>
+                </div>
+                <div class="row row-feat">
+                    <div class="col-md-4 text-center">
 
-		Moreover, they realised language exchange practice with a teacher is probably the most effective way to bridge the gap between language classes and communicating in the real world.<br />
+                        <!-- /.feature image -->
+                        <div class="feature-img">
+                            <img src={% static "images/about-small-logo.gif" %} alt="image" class="img-responsive wow fadeInLeft animated" style="visibility: visible; animation-name: fadeInLeft;">
+                        </div>
+                    </div>
 
-		Together, they decided to use the Internet to bring the benefits of language exchange practice to university students. <br /> In October 2017, GLUE was launched. This was an online community that has since helped students find language exchange partners and improve their second language.
-	</p>
-{% endblock %}
+                    <div class="col-md-8">
+
+                        
+                        <div class="col-sm-6 feat-list">
+                            <i class="pe-7s-notebook pe-5x pe-va wow fadeInUp animated" style="visibility: visible; animation-name: fadeInUp;"></i>
+                            <div class="inner">
+                                <h4>To stduy Language</h4>
+                                <p>To study language is to bring a lot of benefits, having chances to experience something new. 
+                                </p>
+                            </div>
+                        </div>
+
+                     
+                        <div class="col-sm-6 feat-list">
+                            <i class="pe-7s-cash pe-5x pe-va wow fadeInUp animated" data-wow-delay="0.2s" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInUp;"></i>
+                            <div class="inner">
+                                 <h4>To open new idea</h4>
+                                <p>Each national people has their own common charecter, liftestyle, language. While meeting these things, you will probably get new idea ,or break your stereotype.</p>
+                            </div>
+                        </div>
+
+                   
+                        <div class="col-sm-6 feat-list">
+                            <i class="pe-7s-cart pe-5x pe-va wow fadeInUp animated" data-wow-delay="0.4s" style="visibility: visible; animation-delay: 0.4s; animation-name: fadeInUp;"></i>
+                            <div class="inner">
+                                <h4>To approch new culture </h4>
+                                <p>Each country has their own language and culture. While approching new language, you probably experience new culture.</p>
+                            </div>
+                        </div>
+
+                        <!-- /.feature 4 -->
+                        <div class="col-sm-6 feat-list">
+                            <i class="pe-7s-users pe-5x pe-va wow fadeInUp animated" data-wow-delay="0.6s" style="visibility: visible; animation-delay: 0.6s; animation-name: fadeInUp;"></i>
+                            <div class="inner">
+                              <h4>To meet New friends</h4>
+                                <p>While learning some forign language, many international friends are around you.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+ 
+        {% endblock %}
+                       
+   
+</html>

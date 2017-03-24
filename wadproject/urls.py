@@ -23,7 +23,7 @@ from django.conf.urls.static import static
 admin.autodiscover()
 
 urlpatterns = [
-    url(r'^$', views.index, name='index'),
+    url(r'^$', views.register, name='register'),
     url(r'^LanguageExchange/', include('LanguageExchange.urls')),
     url(r'^admin/',include(admin.site.urls)),
     #url(r'^LanguageExchange/register/$',MyRegistrationView.as_view(),name='register'),

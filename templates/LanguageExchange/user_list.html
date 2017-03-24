@@ -1,0 +1,113 @@
+{% extends 'LanguageExchange/base.html' %}
+{% load staticfiles %}
+
+{% block title_block%}
+<title>User_list</title>
+{% endblock %}
+
+
+
+{% block body_block %}
+
+   
+
+ <div class="fullscreen landing parallax" style="background-image:url('{% static "images/contack-logo.png" %}');"  data-img-width="2000" data-img-height="1333" data-diff="100">
+
+            <div class="overlay">
+             
+              
+                        <div class="col-md-12">
+            <div class="form-group">
+                            <div class="signup-header wow fadeInUp">
+                        <!-- /.signup form -->
+                       
+
+                         
+
+{% for each_model in Result %}
+    
+    <div class="panel panel-success" style="margin-left:10px;margin-right:50px ;margin-top:100px;width:400px ;float:right">
+            <div class="panel-heading">
+              <h3 class="panel-title"style="text-align:center; color:green;"><strong>USER INFORMATION</strong></h3>
+            </div>
+            <div class="panel-body">
+            {% if not each_model.Profile_image %}
+            <img src="{{MEDIA_URL}}Profile_images/deafult-profile-image.png" style="width:300px; height:200px; display:block; margin-left:auto;margin-right:auto"/>
+            <hr>
+            
+            {% else %}
+             <img src="{{MEDIA_URL}}{{each_model.Profile_image}}"style="width:300px; height:200px; display:block; margin-left:auto;margin-right:auto">
+                <hr>
+            {% endif %}
+        
+         
+       <div class="alert alert-info" role="alert" style="text-align:center">
+       <strong>Email-adress</strong><br> </div>
+       <div style="text-align:center;">{{each_model.email}}</div>
+      
+        <hr>
+       <div class="alert alert-info" role="alert" style="text-align:center">
+       <strong>User_Name   </strong><br> </div> <div style="text-align:center;">{{each_model.username}}</div>
+      
+               
+              
+               <hr>
+                  <div class="alert alert-info" role="alert"style="text-align:center">
+        <strong>User_Nationality  </strong><br></div><div style="text-align:center"> {{each_model.Nationality}}</div>
+      
+                       
+              
+                <hr>
+                 <div class="alert alert-info" role="alert"style="text-align:center">
+        <strong> Mother_language  </strong> <br></div><div style="text-align:center">{{each_model.Mother_language}}</div>
+                       
+              
+               
+                <hr>
+                 <div class="alert alert-info" role="alert"style="text-align:center">
+        <strong> Wish_language </strong> <br></div><div style="text-align:center">{{each_model.Wish_language}}</div>
+               <hr>
+                <div class="alert alert-info" role="alert"style="text-align:center">
+        <strong> Message_status </strong><br> </div><div style="text-align:center"> {{each_model.status_message}}</div>
+         
+             </div>
+         </div>
+         {% endfor %}
+       
+        <div class="col-md-10">
+
+     <div class="container" style="float:right; margin-right:-800px">      
+   {% if Result.has_other_pages %}
+  
+    <ul class="pagination">
+    {% if Result.has_previous %}
+      <li><a href="?page={{ Result.previous_page_number }}&Mother_language={{request.GET.Mother_language}}&Nationality={{request.GET.Nationality}}">&laquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&laquo;</span></li>
+    {% endif %}
+    {% for i in Result.paginator.page_range %}
+      {% if Result.number == i %}
+        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+      {% else %}
+        <li><a href="?page={{ i }}&Mother_language={{request.GET.Mother_language}}&Nationality={{request.GET.Nationality}}">{{ i }}</a></li>
+      {% endif %}
+    {% endfor %}
+    {% if Result.has_next %}
+      <li> <a href="?page={{ Result.next_page_number }}&Mother_language={{request.GET.Mother_language}}&Nationality={{request.GET.Nationality}}">&raquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&raquo;</span></li>
+    {% endif %}
+  </ul>
+  </div>
+   </div>
+    </div>
+  
+
+{%endif%}    
+</div>
+</div>
+</body>
+
+</html>
+
+{% endblock %}
